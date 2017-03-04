@@ -7,7 +7,7 @@ class Rifle
 {
 private:
 	string m_manufacturer, m_caliber, m_sn;
-	int m_burstRate, m_capacity, m_roundsLeft, roundsLoad;
+	int m_burstRate, m_capacity, m_roundsLeft;
 	bool m_burstCap;
 public:
 
@@ -20,7 +20,7 @@ public:
 	string getSerialNumber();
 	string ToString();
 	string status();
-	string firing(string fire, int rounds2shoot);
+	string firing();
 
 	void setManufacturer(string man);
 	void setCaliber(string caliber);
@@ -28,11 +28,10 @@ public:
 	int setCapacity(int full);
 	int Automatic(int roundsPerBurst);
 
-
+	int Unload();
 	int setBurstCap(bool mode);
-	int Reload(int capacity, int roundsLeft, int roundsLoaded);
+	int Reload();
 	int roundsRemaining();
 };
 
-//int getCapacity();//?
-//int roundsRemaining(); remaining ammo
+

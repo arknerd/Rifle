@@ -2,7 +2,7 @@
 #include <iomanip>
 
 
-Rifle::Rifle() : m_burstCap(), m_caliber(), m_roundsLeft() {}
+Rifle::Rifle() : m_manufacturer(), m_burstCap(), m_caliber(), m_roundsLeft() {}
 Rifle::Rifle(string make, string caliber, string sn, bool mode, int fullMag) : m_manufacturer(make),
 m_caliber(caliber), m_sn(sn), m_burstCap(mode), m_capacity(fullMag), m_roundsLeft(0) {}
 
@@ -14,7 +14,7 @@ string Rifle::getSerialNumber() { return m_sn; }
 void Rifle::setManufacturer(string man) { m_manufacturer = man; }
 void Rifle::setCaliber(string caliber) { m_caliber = caliber; }
 void Rifle::setSerialNumber(string sn) { m_sn = sn; }
-int Rifle::setCapacity(int fullMag) { return roundsLoad = m_capacity = fullMag; }
+int Rifle::setCapacity(int fullMag) { return  m_capacity = fullMag; }
 
 
 string Rifle::ToString()
@@ -49,6 +49,8 @@ string Rifle::status()
 	return ss.str();
 }
 
+
+
 int Rifle::Automatic(int roundsPerBurst)
 {
 	if (m_burstCap == 1)
@@ -60,45 +62,66 @@ int Rifle::Automatic(int roundsPerBurst)
 	return m_burstRate;
 }
 
-string Rifle::firing(string fire, int rounds2shoot)
+string Rifle::firing()
 {
 	stringstream ss;
+	int rounds = 0, burst = m_burstRate;
 
-	//m_roundsLeft = roundsLeft;
-	int bRateleft = m_burstRate;
-	cout << rounds2shoot <<" "<< bRateleft << endl;
-	while (m_roundsLeft > 0 )
+
+	if (m_burstCap == 1)
 	{
-			
-		while (bRateleft > 0) {
+		while (m_roundsLeft > 0 && burst > 0)
+		{
+			ss << "bang ";
+			--burst;
+			--m_roundsLeft;
+
+		}
+		if (burst > 0)
+		{
+			ss << "click";
+		}
+	}
+	else if (m_burstCap == 0)
+	{
+		if (m_roundsLeft > 0)
+		{
 			ss << "bang ";
 			--m_roundsLeft;
-			--rounds2shoot;
-			--bRateleft;
-		}
-		ss << "\n";
 
-		if (m_roundsLeft < 1)
+		}
+		else
 		{
-			ss << "click\n";
+			ss << "click";
 		}
-
 	}
 
 
 	return ss.str();
 }
 
-int Rifle::Reload(int capacity, int roundsLeft, int roundsLoaded)
+int Rifle::Reload()
 {
+	int load;
+
+	load = m_capacity - m_roundsLeft;
 	m_roundsLeft = m_capacity;
-	return m_roundsLeft;
+	return load;
 }
 
 int Rifle::roundsRemaining()
 {
-	m_roundsLeft = m_capacity;
+
 	return m_roundsLeft;
 }
 
 string Rifle::getManufacturer() { return m_manufacturer; }
+
+int Rifle::Unload()
+{
+	int unload;
+	m_capacity = 0;
+	unload = m_capacity;
+	return unload;
+
+}
